@@ -1,0 +1,47 @@
+"""
+가로세로대각선 갈수있음
+입력 마지막 0 0
+"""
+
+from collections import deque
+import sys
+input = sys.stdin.readline
+
+dy = [0, 1, 1, 1, 0, -1, -1, -1]
+dx = [1, 1, 0, -1, -1, -1, 0, 1]
+
+def bfs(y, x):
+    q = deque()
+    q.append((y,x))
+    while q:
+        ey, ex = q.popleft()
+        
+        for k in range(8):
+            ny = ey + dy[k]
+            nx = ex + dx[k]
+            if 0<=ny<h and 0<=nx<w:
+                if maps[ny][nx] == 1 and chk[ny][nx] == False:
+                    chk[ny][nx] = True
+                    q.append((ny, nx))
+    
+
+while True:
+    w, h = map(int, input().split())
+    
+    if w == 0 and h == 0:
+        break
+    
+    maps = [list(map(int, input().split())) for _ in range(h)]
+    chk = [[False]*w for _ in range(h)]
+    
+    cnt = 0
+    
+    for j in range(h):
+        for i in range(w):
+            if maps[j][i] == 1 and chk[j][i] == False:
+                chk[j][i] = True
+                cnt += 1 
+                bfs(j,i)
+            
+                
+    print(cnt)
