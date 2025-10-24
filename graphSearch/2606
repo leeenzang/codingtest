@@ -1,0 +1,32 @@
+from collections import deque
+import sys
+input = sys.stdin.readline
+
+cnt = int(input())
+n = int(input())
+
+maps = [[] for _ in range(cnt+1)]
+chk = [False] * (cnt+1)
+
+for _ in range(n):
+    a, b = map(int, input().split())
+    maps[a].append(b)
+    maps[b].append(a)
+
+
+def bfs(n):
+    q = deque()
+    q.append(n)
+    ans = 0
+    
+    while q:
+       no = q.popleft()
+       if chk[no] == False:
+           chk[no] = True
+           for i in maps[no]:
+               q.append(i)
+           ans += 1
+           
+    print(ans-1)
+    
+bfs(1)
