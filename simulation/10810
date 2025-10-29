@@ -1,0 +1,23 @@
+"""
+- n개의 바구니에 1부터 n까지 번호 적힌 공 하나씩 넣기 가능
+- m번 공을 넣을거고 이미 있으면 빼고 새 공 넣음 
+
+- m줄에 걸쳐 i,j,k 받음
+- i부터 j까지 k값 넣음 
+- list[] 1부터 n+1까지 만들어서 인덱스를 바구니 번호로 사용
+"""
+
+import sys
+input = sys.stdin.readline
+
+n, m = map(int, input().split())
+basket = [0] * n
+
+for _ in range(m):
+    i, j, k = map(int, input().split())
+    
+    for idx in range(i, j+1):
+        basket[idx-1] = k
+        
+ans = ' '.join(map(str, basket))
+print(ans)
