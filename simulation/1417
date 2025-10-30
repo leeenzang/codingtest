@@ -1,0 +1,34 @@
+""" 
+- 후보 수 n 
+- 인덱스로 위치 보고 -1씩
+- int[]
+"""
+
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+arr = list(int(input()) for _ in range(n))
+
+cnt = 0
+
+# 후보가 한 명이라면 종료
+if n == 1:
+    print(0)
+    exit()
+
+while True:
+    maxv = max(arr[1:])
+    idx = arr[1:].index(maxv) +1
+    # arr[0]이 가장 크다면 break
+    if arr[0] > maxv:
+        break
+    
+    # arr[0]보다 크거나 같은 값이 있다면 -1하고 arr[0]에 +1 
+    if arr[0] <= maxv:
+        arr[0] += 1
+        arr[idx] -= 1
+        cnt += 1
+    
+
+print(cnt)
