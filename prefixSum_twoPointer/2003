@@ -1,0 +1,25 @@
+import sys
+input = sys.stdin.readline 
+
+# 움직이다가 m이 넘어가면 n이 줄어들게
+
+n, m = map(int, input().split())
+nums = list(map(int, input().split()))
+cnt = 0 
+
+left, right = 0, 0
+
+while right <= n:
+    
+    v = sum(nums[left:right])
+    
+    if v == m:
+        cnt += 1
+        left += 1
+    elif v < m:
+        right += 1
+    else:
+        left += 1
+    
+
+print(cnt)
