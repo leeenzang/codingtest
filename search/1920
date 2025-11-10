@@ -1,0 +1,42 @@
+"""
+1. 아이디어
+- 정렬 해서 이진탐색
+- M안에 N숫자 있나 하나씩 확인
+
+2. 시간복잡도
+- 정렬 n log n
+- 이진탐색 m log n 
+- (n+m)log n -> n은 100,000 < 백아래
+
+3. 자료구조
+- int [] 두 개
+"""
+
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+nums = list(map(int, input().split()))
+m = int(input())
+target_list = list(map(int, input().split()))
+
+nums.sort()
+
+def search(st,en,target):
+    if st==en:
+        if nums[st] == target:
+            print(1)
+        else:
+            print(0)
+        return
+    
+    mid = (st+en)//2
+    if nums[mid] < target:
+        search(mid+1, en, target)
+    else:
+        search(st, mid, target)
+
+
+for target_num in target_list:
+    print
+    search(0, n-1, target_num)
