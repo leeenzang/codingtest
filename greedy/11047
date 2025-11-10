@@ -1,0 +1,25 @@
+"""
+1. 아이디어
+- 뒤집어
+- for로 사용한만큼 빼주고 나머지 저장
+2. 시간복잡도
+- for하나 O(N)
+3. 자료구조
+- int[]
+- 남은 금액, 개수 int 두 개
+"""
+
+import sys
+input = sys.stdin.readline 
+
+n, k = map(int, input().split())
+coins = list(int(input()) for _ in range(n))
+cnt = 0
+
+coins.reverse()
+
+for each_coin in coins:
+    cnt += k // each_coin
+    k = k % each_coin
+    
+print(cnt)
