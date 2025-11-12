@@ -1,0 +1,120 @@
+""" 
+1. 아이디어
+- 0이 있는지 확인 -> 없으면 0 출력
+- 모든 1의 위치를 찾아
+    - 한 번 할 때 rs에 1 추가 
+    - 동시에 그 위치 주변으로 안 익은 곳 표시해
+- 0이 남아있다면 -1
+2. 시간복잡도
+- O(V+E) -> 대략 5e6
+3. 자료구조
+- 맵 int[][]
+- 체크 boolean[][]
+"""
+
+import sys
+from collections import deque
+input = sys.stdin.readline 
+
+M, N = map(int, input().split())
+maps = [list(map(int, input().split())) for _ in range(N)]
+chk = [[False] * M for _ in range(N)]
+
+rs = 0
+
+q = deque()
+
+dy = [0, 1, 0, -1]
+dx = [1, 0, -1, 0]
+
+def check():
+    cnt = 0
+    for j in range(N):
+        for i in range(M):
+            if maps[j][i] == 0:
+                cnt += 1
+    return cnt
+        
+def bfs():
+    rs = 0
+    
+    while q:
+        n = len(q)
+        for _ in range(n):
+            ey, ex = q.popleft()
+            for i in range(4):
+                ny = ey + dy[i]
+                nx = ex + dx[i]
+                if 0<=ny<N and 0<=nx<M:
+                    if maps[ny][nx] == 0 and chk[ny][nx] == False:
+                        chk[ny][nx] = True
+                        maps[ny][nx] = 1
+                        q.append((ny,nx))
+        rs += 1
+        
+    return rs
+
+for j in range(N):
+    for i in range(M):
+        if maps[j][i] == 1 and chk[j][i] == False:
+            chk[j][i] = True
+            q.append((j,i))
+            
+            
+zeros = check()
+if zeros == 0:
+    print(0)
+else:
+    ans = bfs()
+    zeros = check()
+    if zeros == 0:
+        print(ans-1)
+    else:
+        print(-1)
+
+
+
+
+# 개선버전
+# chk는 필요없음 maps[ny][nx] 가 이미 체크함
+# check()함수로 남은거 세는 대신 BFS하면서 0이 사라질때마다 카운트 줄이기
+
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+M, N = map(int, input().split())
+maps = [list(map(int, input().split())) for _ in range(N)]
+
+q = deque()
+zero_cnt = 0
+
+for y in range(N):   # 1 위치 찾을 때 0이 몇개인지 같이 체크
+    for x in range(M):
+        if maps[y][x] == 1:
+            q.append((y, x))
+        elif maps[y][x] == 0:
+            zero_cnt += 1
+
+dy = [1, -1, 0, 0]
+dx = [0, 0, 1, -1]
+
+days = 0
+
+while q:
+    for _ in range(len(q)):  # 하루 단위
+        y, x = q.popleft()
+        for i in range(4):
+            ny, nx = y + dy[i], x + dx[i]
+            if 0 <= ny < N and 0 <= nx < M and maps[ny][nx] == 0:
+                maps[ny][nx] = 1
+                zero_cnt -= 1
+                q.append((ny, nx))
+    days += 1
+
+if zero_cnt == 0:
+    print(days - 1)
+else:
+    print(-1)
+
+        
