@@ -1,0 +1,27 @@
+""" 
+1. 아이디어
+- 시작 숫자를 주고 그 숫자보다 작으면 ㄴㄴ
+- rs 길이가 m과 같아지면 끝
+2. 시간복잡도
+- 백트래킹 중복없으면 N!, N < 10
+3. 자료구조
+- 현재 숫자 저장 리스트 int[]
+"""
+
+import sys
+input = sys.stdin.readline 
+
+N, M = map(int, input().split())
+rs = []
+
+def recur(start):
+    if len(rs) == M:
+        print(' '.join(map(str, rs)))
+        return
+    
+    for i in range(start, N+1):
+        rs.append(i)
+        recur(i+1)
+        rs.pop()
+        
+recur(1)
