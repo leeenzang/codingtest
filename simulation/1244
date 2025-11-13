@@ -1,0 +1,52 @@
+"""  
+1. 아이디어
+- 1일때 배수 반전
+- 2일때
+    - 인덱스 위치로 가서 반전
+    - 양 옆 범위 체크 후 안 넘으면 같은지 확인 반복
+    - 만약 다르면 멈춤
+    
+2. 시간복잡도
+- 
+3. 자료구조
+- 스위치 상태 int[]
+"""
+
+import sys
+input = sys.stdin.readline 
+
+swc_n = int(input())
+swc = list(map(int, input().split()))
+swc.insert(0,9)
+
+n = int(input())
+
+
+for _ in range(n):
+    gd, idx = map(int, input().split())
+    
+    if gd == 1:
+        for i in range(idx, swc_n+1, idx):
+            swc[i] = (swc[i]+1) % 2
+            
+    elif gd == 2:
+        swc[idx] = (swc[idx]+1) % 2
+        b = 0
+        while True:
+            b+=1
+            if 0 < idx-b and swc_n >= idx+b:
+                if swc[idx-b] == swc[idx+b]:
+                    swc[idx-b] = (swc[idx-b]+1) % 2
+                    swc[idx+b] = (swc[idx+b]+1) % 2
+                else:
+                    break
+            else:
+                break
+
+swc.remove(9)
+
+for i in range(0, swc_n, 20):
+    print(*swc[i:i+20])
+
+
+# 경계값 잘 체크하기
