@@ -1,0 +1,38 @@
+""" 
+1. 아이디어
+- 시작점이 M보다 작거나 같은 동안
+    - 타겟값보다 크거나 같으면 저장 후 더 높은 높이 시도
+    - 타겟값이 더 작으면 높이 내림 
+2. 시간복잡도 
+O(N log H)
+3. 자료구조
+답 int 
+나무 저장 int []
+
+"""
+
+import sys
+input = sys.stdin.readline 
+
+N, M = map(int, input().split())
+trees = list(map(int, input().split()))
+
+st = 0
+ed = max(trees)
+ans = 0
+
+while st <= ed:
+    mid = (st+ed) // 2
+    
+    total = 0
+    for i in trees:
+        if i > mid:
+            total += i-mid
+        
+    if total >= M:
+        ans = mid
+        st = mid + 1
+    else:
+        ed = mid -1
+        
+print(ans)
