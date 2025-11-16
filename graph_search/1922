@@ -1,0 +1,38 @@
+"""   
+- MST
+- edge[][] 양방향 연결
+- chk [] 방문확인
+- rs 최소값
+
+"""
+
+import heapq
+import sys
+input = sys.stdin.readline
+
+N = int(input())
+M = int(input())
+
+edges = [[] for _ in range(N+1)]
+chk = [False] * (N+1)
+rs = 0
+
+for _ in range(M):
+    a, b, c = map(int, input().split())
+    edges[a].append([c, b])
+    edges[b].append([c, a])
+    
+heap = [[0,1]]
+
+while heap:
+    w, next_node = heapq.heappop(heap)
+    
+    if chk[next_node] == False:
+        chk[next_node] = True
+        rs += w
+        
+        for next_edge in edges[next_node]:
+            if chk[next_edge[1]] == False:
+                heapq.heappush(heap, next_edge)
+    
+print(rs)
