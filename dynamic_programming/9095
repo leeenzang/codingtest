@@ -1,0 +1,17 @@
+""" 
+F(n) = F(n-1) + F(n-2) + F(n-3)
+"""
+
+import sys
+input = sys.stdin.readline
+
+T = int(input())
+
+for _ in range(T):
+    n = int(input())
+    rs = [0, 1, 2, 4]
+
+    for i in range(4, n+1):
+        rs.append(rs[i-1]+rs[i-2]+rs[i-3])
+    
+    print(rs[n])
