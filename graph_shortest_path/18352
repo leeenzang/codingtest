@@ -1,0 +1,40 @@
+""" 
+- 한 점에서 다른 점으로 최단 경로 구하기 -> 다익스트라
+- O(ElogV) -> 1.8초 가능 
+"""
+
+import heapq
+import sys
+input = sys.stdin.readline 
+INF = sys.maxsize
+
+N, M, K, X = map(int, input().split())
+edge = [[] for _ in range(N+1)]
+dist = [INF] * (N+1)
+
+for _ in range(M):
+    a, b = map(int, input().split())
+    edge[a].append([1, b])
+    
+dist[X] = 0
+heap = [[0, X]]
+
+while heap:
+    ew, ev = heapq.heappop(heap)
+    
+    if dist[ev] != ew:
+        continue
+    
+    for nw, nv in edge[ev]:
+        if dist[nv] > (nw+ew):
+            dist[nv] = (nw+ew)
+            heapq.heappush(heap, [dist[nv], nv])
+            
+sc = 0
+for i in range(N+1):
+    if dist[i] == K:
+        sc = 1
+        print(i)
+    
+if sc == 0:
+    print(-1)
