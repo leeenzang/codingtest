@@ -1,0 +1,28 @@
+""" 
+- 가중치 없는 방향 그래프 모든 정점에 대해서 -> 플로이드
+- 걸쳐서 갈 수 있으면 1줌
+- 플로이드 O(V^3) 
+"""
+
+import sys
+input = sys.stdin.readline 
+INF = sys.maxsize
+
+n = int(input())
+graph = []
+
+for _ in range(n):
+    graph.append(list(map(int, input().split())))
+    
+    
+for k in range(n):
+    for j in range(n):
+        for i in range(n):
+            if graph[j][k] == 1 and graph[k][i] == 1:
+                graph[j][i] = 1
+
+
+for j in range(n):
+    for i in range(n):
+        print(graph[j][i], end=" ")
+    print()
