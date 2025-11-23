@@ -1,0 +1,56 @@
+
+import sys
+input = sys.stdin.readline 
+
+n = int(input())
+arr = list(map(int, input().split()))
+target = int(input())
+
+"""
+2중 for문 O(n^2) 시간초과
+for j in range(n):
+    for i in range(j, n):
+        if (arr[i]+arr[j]) == target:
+            cnt += 1
+            
+print(cnt)
+"""
+
+"""
+시간초과ㅠㅠ
+cnt = 0
+l, r = 0, 1
+    
+while True:
+    if l == n:
+        break
+    
+    if r < n:
+        if arr[l]+arr[r] == target:
+            cnt += 1
+            r += 1
+        else:
+            r += 1
+    else:
+        l += 1
+        r = l
+print(cnt)
+        """
+        
+l, r = 0, n-1
+arr.sort()
+cnt = 0
+while True:
+    if l == r:
+        break
+    
+    each = arr[l]+arr[r]
+    if each < target:
+        l += 1
+    elif each > target:
+        r -= 1
+    else:
+        cnt += 1
+        l += 1
+        
+print(cnt)
