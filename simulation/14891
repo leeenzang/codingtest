@@ -1,0 +1,69 @@
+""" 
+1. 아이디어
+- q로 관리 (톱니 번호, 회전 방향)
+- 오른쪽/왼쪽 톱니 있나? -> 극이 다른가? -> 돌리고 큐 넣
+- 각 리스트 0번 인덱스 점수내기
+"""
+
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+# 톱니바퀴 4개 (1~4번)
+wheels = [None] # 0번 비워둠
+for _ in range(4):
+    wheels.append(list(map(int, input().strip())))
+
+K = int(input())
+
+# 시계 방향 회전
+def rotate_clock(arr):
+    return arr[-1:] + arr[:-1]
+
+# 반시계 방향 회전
+def rotate_anticlock(arr):
+    return arr[1:] + arr[:1]
+
+
+for _ in range(K):
+    gear, direction = map(int, input().split())
+
+    # 1) 회전 방향 저장용 배열
+    rot = [0] * 5
+    rot[gear] = direction
+
+    # 2) 오른쪽 전파
+    d = direction
+    for g in range(gear, 4):
+        # 현재 톱니 g의 오른쪽(2), 다음 톱니 g+1의 왼쪽(6)
+        if wheels[g][2] != wheels[g+1][6]:
+            d = -d
+            rot[g+1] = d
+        else:
+            break
+
+    # 3) 왼쪽 전파
+    d = direction
+    for g in range(gear, 1, -1):
+        # 현재 톱니 g의 왼쪽(6), 이전 톱니 g-1의 오른쪽(2)
+        if wheels[g][6] != wheels[g-1][2]:
+            d = -d
+            rot[g-1] = d
+        else:
+            break
+
+    # 4) 실제 회전 처리
+    for i in range(1, 5):
+        if rot[i] == 1:
+            wheels[i] = rotate_clock(wheels[i])
+        elif rot[i] == -1:
+            wheels[i] = rotate_anticlock(wheels[i])
+
+# 5) 점수 계산
+score = 0
+if wheels[1][0] == 1: score += 1
+if wheels[2][0] == 1: score += 2
+if wheels[3][0] == 1: score += 4
+if wheels[4][0] == 1: score += 8
+
+print(score)
