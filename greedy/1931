@@ -1,0 +1,27 @@
+import sys
+input = sys.stdin.readline
+
+""" 
+- 그리디 사용
+- 그 때의 선택이 전체의 최고선택
+- 짧은 시간 기준 정렬하면 미래 회의 막을 수 있음
+- 빨리 끝나는 회의가 미래에 더 많은 공간 남김
+"""
+
+N = int(input())
+times = []
+
+for _ in range(N):
+    st, ed = map(int, input().split())
+    times.append((st,ed))
+
+times = sorted(times, key = lambda x : (x[1], x[0]))
+
+lasted = 0
+ans = 0
+for st, ed in times:
+    if lasted <= st:
+        lasted = ed
+        ans += 1
+
+print(ans)
