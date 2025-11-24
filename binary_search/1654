@@ -1,0 +1,33 @@
+import sys
+input = sys.stdin.readline
+
+
+K, N = map(int,input().split())
+nums = []
+for _ in range(K):
+    nums.append(int(input()))
+    
+st = 1
+ed = max(nums)
+ans = 0  # 만들 수 있는 최대 랜선 길이
+
+while st<=ed:
+    
+    mid = (st+ed) // 2  #자를길이 후보 
+    
+    # mid 길이로 잘랐을 때 총 몇 개 랜선 나오나
+    total = 0
+    for l in nums:
+        if l > mid:
+            total += (l//mid)
+    
+    # total개수가 타겟값보다 많거나 같으면 
+    # mid를 ans에 저장하고 더 긴 길이 탐색해보기
+    if total >= N:
+        ans = mid
+        st = mid+1
+    # total 개수가 타겟보다 적으면 더 짧게 자르기 
+    else:
+        ed = mid-1
+        
+print(ans)
