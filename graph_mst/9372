@@ -1,0 +1,36 @@
+"""  
+인접리스트 만들어 (비행기 종류, 국가번호)
+"""
+
+import sys
+import heapq
+input = sys.stdin.readline 
+
+T = int(input())
+
+for _ in range(T):
+    N, M = map(int, input().split())
+    edge = [[] for _ in range(N+1)]
+    chk = [False] * (N+1)
+    for _ in range(M):
+        a, b = map(int, input().split())
+        edge[a].append([1,b])
+        edge[b].append([1,a])
+        
+    heap = [[0,1]]
+    rs = 0
+    
+    while heap:
+        w, each_node = heapq.heappop(heap)
+        
+        if chk[each_node] == False:
+            chk[each_node] = True
+            rs+=w
+
+            for next_node in edge[each_node]:
+                if chk[next_node[1]] == False:
+                    heapq.heappush(heap, next_node)
+    
+    print(rs)
+
+    
