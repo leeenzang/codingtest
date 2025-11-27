@@ -1,0 +1,19 @@
+import sys
+input = sys.stdin.readline 
+
+
+N, M = map(int, input().split())
+
+rs = []
+
+def recur(num):
+    if num == M+1:
+        print(' '.join(map(str, rs)))
+        return
+    
+    for i in range(1, N+1):
+        rs.append(i)
+        recur(num+1)
+        rs.pop()
+        
+recur(1)
