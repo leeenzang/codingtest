@@ -1,0 +1,35 @@
+# BFS 최단거리
+
+import sys
+from collections import deque
+input = sys.stdin.readline 
+
+K = int(input())
+
+for _ in range(K):
+    l = int(input())
+    dist = [[-1] * (l) for _ in range(l)]
+    
+    y, x = map(int, input().split())
+    ty, tx = map(int, input().split())
+    
+    q = deque()
+    q.append((y, x))
+    dist[y][x] = 0
+    
+    dy = [2, 1, -1, -2, -2, -1, 1, 2]
+    dx = [1, 2, 2, 1, -1, -2, -2, -1]
+    
+    while q:
+        ey, ex = q.popleft()
+        
+        if ey == ty and ex == tx:
+            print(dist[ey][ex])
+            break
+        
+        for i in range(8):
+            ny, nx = dy[i]+ey, dx[i]+ex
+            
+            if 0<=ny<l and 0<=nx<l and dist[ny][nx] == -1:
+                dist[ny][nx] = dist[ey][ex] + 1
+                q.append((ny, nx))
