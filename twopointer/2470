@@ -1,0 +1,35 @@
+import sys
+input = sys.stdin.readline
+INF = sys.maxsize
+
+n = int(input())
+nums = list(map(int, input().split()))
+nums.sort()
+
+ans = []
+v = INF
+l = 0
+r = n-1
+
+while True:
+    if l == r:
+        break
+    
+    # 양수냐 음수냐로 방향 정하고
+    # 저장할지는 절대값 비교로 하면 돼!!
+    each = nums[l] + nums[r]
+    
+    if abs(each) < v:
+        ans = (nums[l], nums[r])
+        v = abs(each)
+        
+    if each < 0:
+        l += 1
+    elif each > 0:
+        r -= 1
+    else:
+        ans = (nums[l], nums[r])
+        break
+    
+print(*ans)
+        
