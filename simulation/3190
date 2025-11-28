@@ -1,0 +1,86 @@
+"""  
+0 빈칸 1 사과 2 뱀
+
+1. 벽 충돌 여부
+2. 몸 있는지 확인
+3. 사과 여부 확인
+4. 머리/꼬리 업데이트
+
+"""
+
+import sys
+from collections import deque
+input = sys.stdin.readline
+
+N = int(input())
+K = int(input())
+
+# 0=빈칸, 1=사과, 2=뱀몸
+maps = [[0]*(N+1) for _ in range(N+1)]
+
+# 사과 위치
+for _ in range(K):
+    r, c = map(int, input().split())
+    maps[r][c] = 1
+
+# 방향 변환 정보
+L = int(input())
+turn_info = dict()
+for _ in range(L):
+    X, C = input().split()
+    turn_info[int(X)] = C
+
+# 오른쪽, 아래, 왼쪽, 위 (시계 방향)
+dy = [0, 1, 0, -1]
+dx = [1, 0, -1, 0]
+
+direction = 0  # 처음엔 오른쪽
+time = 0
+
+# 뱀 몸통 저장할 큐
+snake = deque()
+snake.append((1, 1))
+maps[1][1] = 2  # 뱀 표시
+
+y, x = 1, 1  # 현재 머리 위치
+
+while True:
+    time += 1
+
+    # 다음 머리 위치
+    ny = y + dy[direction]
+    nx = x + dx[direction]
+
+    # 벽 충돌 체크
+    if not (1 <= ny <= N and 1 <= nx <= N):
+        break
+
+    # 자기 몸 충돌 체크
+    if maps[ny][nx] == 2:
+        break
+
+    # 이동 처리
+    # 사과 O 길이 증가(꼬리 그대로)
+    if maps[ny][nx] == 1:
+        maps[ny][nx] = 2
+        snake.append((ny, nx))
+
+    # 사과 X 머리 늘리고 꼬리 제거
+    else:
+        maps[ny][nx] = 2
+        snake.append((ny, nx))
+
+        ty, tx = snake.popleft()
+        maps[ty][tx] = 0  # 꼬리 비우기
+
+    # 머리 갱신
+    y, x = ny, nx
+
+    # 4) 방향 전환 (절대 시간 기준)
+    if time in turn_info:
+        if turn_info[time] == 'L':
+            direction = (direction - 1) % 4
+        else:  # 'D'
+            direction = (direction + 1) % 4
+
+print(time)
