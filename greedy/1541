@@ -1,0 +1,16 @@
+""" 
+값을 최소로 만들려면 - 뒤 값들의 합이 최대여야 함
+"""
+
+import sys
+input = sys.stdin.readline 
+
+inp = list(map(str, input().strip().split('-')))
+
+p = sum(list(map(int, inp[0].split('+'))))
+n = 0
+
+for i in range(1, len(inp)):
+    n += sum(list(map(int, inp[i].split('+'))))
+    
+print(p-n)
