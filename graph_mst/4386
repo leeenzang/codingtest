@@ -1,0 +1,37 @@
+
+import sys
+input = sys.stdin.readline 
+import heapq
+
+
+n = int(input())
+chk = [False] * n
+edges = [[] for _ in range(n)]
+nums = []
+
+# 별자리 거리 계산해서 저장하기 
+for _ in range(n):
+    a, b = map(float, input().split())
+    nums.append((a,b))
+
+for j in range(n):
+    for i in range(j+1, n):
+        x = (nums[j][0] - nums[i][0])**2
+        y = (nums[j][1] - nums[i][1])**2
+        d = (x+y)**0.5
+        edges[j].append((d,i))
+        edges[i].append((d,j))
+    
+heap = [(0.0, 0)]
+rs =0.0
+while heap:
+    w, node = heapq.heappop(heap)
+    
+    if chk[node] == False:
+        chk[node] = True
+        rs += w
+        for next in edges[node]:
+            if chk[next[1]] == False:
+                heapq.heappush(heap, next)
+
+print(f"{rs:.2f}")
