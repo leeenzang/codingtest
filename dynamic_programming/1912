@@ -1,0 +1,15 @@
+import sys
+input = sys.stdin.readline 
+
+""" 
+An = max(An, (An+An-1))
+"""
+T = int(input())
+nums = list(map(int, input().split()))
+dp = [0] * T
+dp[0] = nums[0]
+
+for i in range(1, T):
+    dp[i] = max(nums[i], nums[i]+dp[i-1])
+    
+print(max(dp))
