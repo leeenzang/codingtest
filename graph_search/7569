@@ -1,0 +1,53 @@
+import sys
+from collections import deque
+input = sys.stdin.readline 
+
+M, N, H = map(int, input().split())
+maps = []
+q = deque()
+zero_cnt = 0
+days = 0
+
+for _ in range(H):
+    arr = [list(map(int, input().split())) for _ in range(N)]
+    maps.append(arr)
+    
+# 1 위치 찾으면서 0 개수 세기
+
+for k in range(H):
+    for j in range(M):
+        for i in range(N):
+            if maps[k][i][j] == 1:
+                q.append((k, i, j))
+            elif maps[k][i][j] == 0:
+                zero_cnt += 1
+
+dy = [0, 1, 0, -1]
+dx = [1, 0, -1, 0]
+dh = [-1, 1]
+
+
+while q:
+    days += 1
+    
+    for _ in range(len(q)):
+        eh, ey, ex = q.popleft()
+        
+        for i in range(4):
+            ny, nx = ey+dy[i], ex+dx[i]
+            if 0<=ny<N and 0<=nx<M and maps[eh][ny][nx] == 0:
+                maps[eh][ny][nx] = 1
+                zero_cnt -= 1
+                q.append((eh,ny,nx))
+        
+        for i in range(2):
+            nh = eh+dh[i]
+            if 0<=nh<H and maps[nh][ey][ex] == 0:
+                maps[nh][ey][ex] = 1
+                zero_cnt -= 1
+                q.append((nh,ey,ex))
+
+if zero_cnt != 0:
+    print(-1)
+else:
+    print(days-1)
