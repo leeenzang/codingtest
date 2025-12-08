@@ -1,0 +1,25 @@
+"""  
+빗물이 고이려면 양옆 벽 필요함, 이 두 벽 중 낮은 벽까지만 참
+각 칸마다 왼쪽중 가장 높은 벽, 오른쪽중 가장 높은 벽 구함 
+그 두 벽중 낮은만큼 물이 참
+"""
+
+
+import sys
+input = sys.stdin.readline 
+
+h, w = map(int, input().split())
+arr = list(map(int, input().split()))
+
+ans = 0
+
+for i in range(1, w-1):  #양 끝은 물이 없으니까
+    leftm = max(arr[:i])
+    rightm = max(arr[i+1:])
+
+    height = min(leftm, rightm) # 두 벽 중 낮은거 찾아
+    
+    if height > arr[i]:   # 낮은 벽보다 지금 위치가 크면 물 더해줌
+        ans += height-arr[i]
+        
+print(ans)
