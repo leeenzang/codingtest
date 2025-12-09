@@ -1,0 +1,23 @@
+import sys
+input = sys.stdin.readline
+
+n, s = map(int, input().split())
+nums = list(map(int, input().split()))
+
+l = 0
+r = 0
+curr = nums[0]  # 현재 구간의 합
+ans = 10**10  # 최소 길이 큰 값 넣어놓음
+
+while True:
+    if curr >= s:  # 현재 합이 S 이상이면 구간 줄이기 
+        ans = min(ans, r-l+1)
+        curr -= nums[l]
+        l += 1
+    else:        # 현재 합이 S보다 작으면 더 키워 
+        r += 1
+        if r == n:
+            break
+        curr += nums[r]
+
+print(ans if ans != 10**10 else 0)
