@@ -1,0 +1,36 @@
+import sys
+input = sys.stdin.readline 
+
+""" 
+if 예산 > 총액: 배정 예산 중 제일 큰값
+else: 예산 금액 안에서 줄 수 있는 최댓값
+"""
+
+n = int(input())
+ask = list(map(int, input().split()))
+balance = int(input())
+
+if sum(ask) < balance:
+    print(max(ask))
+else:
+    st, ed = 1, max(ask)
+    ans = 0
+
+    while st <= ed:
+        mid = (st+ed) //2
+        
+        m = balance
+        for i in ask:
+            if i <= mid:  # mid보다 작거나 같으면 값 그대로 빼주고
+                m -= i
+            else:  # mid보다 크면 상한액 그대로 빼주고
+                m -= mid
+        
+        if m >= 0:
+            ans = mid
+            st = mid+1
+        elif m < 0:
+            ed = mid-1
+            
+    print(ans)
+        
