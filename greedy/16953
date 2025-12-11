@@ -1,0 +1,20 @@
+# B->A로 거꾸로 갈 때 선택지가 1개로 확정되는 순간만 존재하니까 그리디임
+
+import sys
+input = sys.stdin.readline 
+
+a, b = map(int, input().split())
+cnt = 0 
+
+while b > a:
+    cnt += 1
+    if b % 10 == 1:
+        b = b//10
+    elif b%2 == 0:
+        b = b//2
+    else:
+        cnt = -1
+        break
+
+    
+print(cnt+1) if a == b else print(-1)
