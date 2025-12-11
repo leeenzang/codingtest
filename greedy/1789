@@ -1,0 +1,15 @@
+import sys
+input = sys.stdin.readline 
+
+n = int(input())
+
+ans = 1
+length = 1
+for i in range(2,n+1):
+    if ans+i > n:
+        break
+    else:
+        ans += i
+        length += 1
+        
+print(length)
